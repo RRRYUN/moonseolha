@@ -28,19 +28,19 @@
   if (heroImgs.length > 1 && !reduce) {
     var hi = 0, heroTimer = null;
     var loadRest = function () { heroImgs.forEach(function (im) { if (im.dataset.src) { im.srcset = im.dataset.srcset; im.src = im.dataset.src; im.removeAttribute('data-src'); } }); };
-    if (document.readyState === 'complete') loadRest(); else window.addEventListener('load', loadRest);
+    if (heroImgs[0].complete) loadRest(); else heroImgs[0].addEventListener('load', loadRest);   // 첫 사진이 뜨면 바로 나머지 받기
     var step = function () {
       var next = (hi + 1) % heroImgs.length, cur = heroImgs[hi], im = heroImgs[next];
       if (!im.complete || !im.naturalWidth) return;
       heroImgs.forEach(function (x) { if (x !== cur && x !== im) x.classList.remove('show', 'front'); });
       cur.classList.remove('front');
       im.classList.add('show', 'front');          // 새 사진이 위에서 천천히 나타남
-      setTimeout(function () { cur.classList.remove('show'); }, 2700);   // 다 나타난 뒤 아래 사진을 치움
+      setTimeout(function () { cur.classList.remove('show'); }, 2200);   // 다 나타난 뒤 아래 사진을 치움
       hi = next;
     };
-    var startHero = function () { if (!heroTimer) heroTimer = setInterval(step, 6500); };
+    var startHero = function () { if (!heroTimer) heroTimer = setInterval(step, 4800); };
     var stopHero = function () { clearInterval(heroTimer); heroTimer = null; };
-    setTimeout(startHero, 1500);
+    setTimeout(function () { step(); startHero(); }, 4000);   // 첫 사진은 4초 뒤 넘어감
     document.addEventListener('visibilitychange', function () { if (document.hidden) stopHero(); else startHero(); });
   }
 
@@ -94,9 +94,50 @@
     else if (IO) new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { var p = reel.play(); if (p && p.catch) p.catch(function () {}); } else reel.pause(); }); }, { threshold: .2 }).observe(reel);
   }
 
-  /* 현장 띠: 화면 밖에선 멈춤 */
-  var mq = $('#marquee .marquee-track');
-  if (mq && IO) new IntersectionObserver(function (es) { mq.style.animationPlayState = es[0].isIntersecting ? '' : 'paused'; }).observe($('#marquee'));
+  /* 현장 띠: 끊김 없이 계속 흐름 · 마우스를 올리면 천천히 · 끌거나 밀어서 넘기기 */
+  var mqBox = $('#marquee');
+  if (mqBox && !reduce) {
+    var track = $('.marquee-track', mqBox), firstSet = $('.marquee-set', track);
+    var BASE = window.innerWidth < 861 ? 26 : 34;            // 1초에 움직이는 거리(px)
+    var setW = 0, x = 0, v = BASE, target = BASE, last = 0, rafId = 0, inView = true;
+    var down = false, dragging = false, moved = 0, px = 0, pt = 0, fling = 0;
+    var measure = function () { setW = firstSet.getBoundingClientRect().width; };
+    measure(); window.addEventListener('resize', measure);
+    var frame = function (t) {
+      var dt = last ? Math.min((t - last) / 1000, 0.05) : 0; last = t;
+      if (!dragging) { v += (target - v) * Math.min(1, dt * 2.2); x -= v * dt; }
+      if (setW > 0) { while (x <= -setW) x += setW; while (x > 0) x -= setW; }
+      track.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+      rafId = (inView && !document.hidden) ? requestAnimationFrame(frame) : 0;
+    };
+    var start = function () { if (!rafId && inView && !document.hidden) { last = 0; rafId = requestAnimationFrame(frame); } };
+    if (IO) new IntersectionObserver(function (es) { inView = es[0].isIntersecting; start(); }, { rootMargin: '100px 0px' }).observe(mqBox);
+    document.addEventListener('visibilitychange', start);
+    start();
+    mqBox.addEventListener('mouseenter', function () { target = BASE * 0.18; });
+    mqBox.addEventListener('mouseleave', function () { target = BASE; });
+    mqBox.addEventListener('pointerdown', function (ev) {
+      if (ev.pointerType === 'mouse' && ev.button !== 0) return;
+      down = true; dragging = false; moved = 0; px = ev.clientX; pt = performance.now(); fling = 0;
+    });
+    mqBox.addEventListener('pointermove', function (ev) {
+      if (!down) return;
+      var dx = ev.clientX - px, now = performance.now(), ms = Math.max(1, now - pt);
+      moved += Math.abs(dx);
+      if (!dragging && moved > 6) { dragging = true; mqBox.classList.add('dragging'); try { mqBox.setPointerCapture(ev.pointerId); } catch (e) {} }
+      if (dragging) { x += dx; fling = 0.75 * (dx / ms * 1000) + 0.25 * fling; }
+      px = ev.clientX; pt = now;
+    });
+    var endDrag = function () {
+      if (!down) return; down = false;
+      if (dragging) { dragging = false; mqBox.classList.remove('dragging'); v = Math.max(-2400, Math.min(2400, -fling)); }
+    };
+    mqBox.addEventListener('pointerup', endDrag); mqBox.addEventListener('pointercancel', endDrag);
+    mqBox.addEventListener('click', function (ev) { if (moved > 6) { ev.stopPropagation(); ev.preventDefault(); } }, true);
+    mqBox.addEventListener('wheel', function (ev) {
+      if (Math.abs(ev.deltaX) > Math.abs(ev.deltaY)) { ev.preventDefault(); x -= ev.deltaX; v = target * 0.3; }
+    }, { passive: false });
+  }
 
   /* 휴대폰 아래 연락 줄 */
   var dock = $('#dock');
