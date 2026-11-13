@@ -10,8 +10,7 @@
 <meta name="theme-color" content="#121110">
 <meta property="og:title" content="문설하 · 연극 커튼콜">
 <meta property="og:description" content="배우 문설하 · 연극 · 0:45">
-<!-- 사이트를 올린 뒤 전체 주소(https://…)로 바꿔야 카톡 미리보기에 사진이 뜸 -->
-<meta property="og:image" content="../assets/stage-2-poster.jpg">
+<meta property="og:image" content="https://rrryun.github.io/moonseolha/assets/stage-2-poster.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500&family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@500;600&display=swap" rel="stylesheet">
@@ -36,25 +35,19 @@
     <a class="back" href="../videos.html">← 전체 영상</a>
     <div class="player"><video controls playsinline preload="metadata" poster="../assets/stage-2-poster.jpg"><source src="../assets/stage-2.mp4" type="video/mp4">이 브라우저에서는 영상을 재생할 수 없어요.</video></div>
     <div class="watch-head">
-      <div>
-        <h1 class="watch-title">연극 커튼콜</h1>
-        <p class="watch-meta">연극 · 0:45</p>
-      </div>
-      <div class="watch-actions">
-        <button class="btn" type="button" data-copy>링크 복사</button>
-        <a class="btn primary" href="tel:01085916571">전화하기</a>
-        <a class="btn" href="mailto:heyjoon99@naver.com">이메일</a>
-      </div>
+      <h1 class="watch-title">연극 커튼콜</h1>
+      <p class="watch-meta">연극 · 0:45</p>
+      
     </div>
     <nav class="pager" aria-label="다른 영상으로">
-      <a href="stage.html"><small>이전 영상</small>← 연극 무대</a>
-      <a class="next" href="office.html"><small>다음 영상</small>너나들이 →</a>
+      <a class="pcard prev" href="stage.html"><span class="pthumb"><img loading="lazy" src="../assets/prev/stage-1.jpg" alt=""></span><span class="ptext"><small>← 이전 영상</small><b>연극 무대</b><span class="pmeta">연극 · 0:24</span></span></a>
+      <a class="pcard next" href="office.html"><span class="pthumb"><img loading="lazy" src="../assets/prev/office.jpg" alt=""></span><span class="ptext"><small>다음 영상 →</small><b>너나들이</b><span class="pmeta">출연 장면 · 영희 역 · 2026 촬영 · 2:04</span></span></a>
     </nav>
     <section class="more-videos">
       <h2>다른 영상</h2>
       <div class="vgrid small"><a class="vcard small" href="../v/office.html">
   <span class="vthumb"><video muted loop playsinline preload="none" poster="../assets/prev/office.jpg" data-src="../assets/prev/office.mp4"></video><span class="dur">2:04</span><span class="play" aria-hidden="true">보기 →</span></span>
-  <span class="vtext"><span class="vtitle">너나들이</span><span class="vmeta">출연 장면 · 2026 촬영</span></span>
+  <span class="vtext"><span class="vtitle">너나들이</span><span class="vmeta">출연 장면 · 영희 역 · 2026 촬영</span></span>
 </a><a class="vcard small" href="../v/monologue.html">
   <span class="vthumb"><video muted loop playsinline preload="none" poster="../assets/prev/monologue.jpg" data-src="../assets/prev/monologue.mp4"></video><span class="dur">1:42</span><span class="play" aria-hidden="true">보기 →</span></span>
   <span class="vtext"><span class="vtitle">프로필 독백</span><span class="vmeta">독백</span></span>
@@ -75,12 +68,6 @@
   <span>© 2026 문설하</span>
   <span><a href="tel:01085916571">010-8591-6571</a> · <a href="mailto:heyjoon99@naver.com">heyjoon99@naver.com</a></span>
 </div></footer>
-<nav class="dock" id="dock" aria-label="빠른 연락">
-  <a class="primary" href="tel:01085916571">전화</a>
-  <a href="mailto:heyjoon99@naver.com">이메일</a>
-  <a href="../assets/profile.pdf" download="문설하_프로필.pdf">PDF</a>
-</nav>
-<div class="lights" id="lights" aria-hidden="true"><div class="shade"></div><div class="glow"></div></div>
 <script src="../assets/site.js"></script>
 </body>
 </html>
