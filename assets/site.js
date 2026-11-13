@@ -152,8 +152,8 @@
   }
 
   /* 사진 크게 보기 */
-  var lb = $('#lb'), photos = window.LB_PHOTOS;
-  if (lb && photos) {
+  var lb = $('#lb'), groups = window.LB_GROUPS, photos = [];
+  if (lb && groups) {
     var img = $('#lb-img'), count = $('#lb-count'), dl = $('#lb-dl'), cap = $('#lb-cap'), cur = 0;
     var show = function (i) {
       cur = (i + photos.length) % photos.length; var p = photos[cur];
@@ -162,6 +162,7 @@
     };
     document.addEventListener('click', function (ev) {
       var b = ev.target.closest && ev.target.closest('.ph'); if (!b) return;
+      photos = groups[b.dataset.g] || []; if (!photos.length) return;
       show(+b.dataset.i); if (lb.showModal) lb.showModal(); else window.open(img.src, '_blank');
     });
     $('#lb-close').onclick = function () { lb.close(); };
