@@ -48,7 +48,9 @@ button { font: inherit; color: inherit; }
 /* 첫 화면 */
 .hero { display: grid; grid-template-columns: minmax(0, 46fr) minmax(0, 54fr); min-height: 100svh; }
 .hero-photo { position: relative; margin: 0; overflow: hidden; background: var(--bg2); }
-.hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 32%; filter: brightness(var(--photo-b)); }
+.hero-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 32%); filter: brightness(var(--photo-b));
+  opacity: 0; transition: opacity 2.4s cubic-bezier(.45, 0, .25, 1); }
+.hero-photo img.on { opacity: 1; }
 .hero-photo::after { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: var(--vig); transition: opacity .6s;
   background: radial-gradient(ellipse 80% 68% at 52% 36%, transparent 44%, color-mix(in srgb, var(--bg) 82%, transparent) 100%),
               linear-gradient(to right, transparent 78%, var(--bg) 100%); }
@@ -58,7 +60,7 @@ button { font: inherit; color: inherit; }
 h1 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 500; font-size: clamp(60px, 8.4vw, 118px); line-height: 1.08; letter-spacing: .05em; }
 .roman { margin: 14px 0 0 4px; font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 21px; letter-spacing: .34em; color: var(--mute); }
 .facts { margin: 28px 0 0; font-size: 19px; color: var(--fg2); }
-.edu { display: flex; align-items: center; gap: 14px; margin: 18px 0 0; padding-top: 18px; border-top: 1px solid var(--line); max-width: 520px; font-size: 17px; color: var(--fg2); line-height: 1.6; }
+.edu { display: flex; align-items: flex-start; gap: 18px; margin: 18px 0 0; padding-top: 18px; border-top: 1px solid var(--line); max-width: 520px; font-size: 17px; color: var(--fg2); line-height: 1.6; }
 .emblem { width: 56px; height: 53px; flex: none; color: var(--fg); }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 34px; }
 .scroll-cue { margin-top: 30px; width: fit-content; font-size: 15px; color: var(--mute); border-bottom: 1px solid var(--line); padding-bottom: 2px; }
@@ -120,8 +122,23 @@ h2 { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 500; font-size
 .band-grid > * { padding: 8px 40px; }
 .band-grid > * + * { border-left: 1px solid var(--line); }
 .band-grid > :first-child { padding-left: 0; }
-.edu-card { display: flex; gap: 28px; align-items: flex-start; }
-.emblem-lg { width: 120px; height: 113px; flex: none; color: var(--fg); }
+.edu-card { display: block; }
+.edu-label { flex: none; font-size: 14.5px; color: var(--mute); letter-spacing: .06em; padding-top: 1px; min-width: 40px; }
+/* 현장 띠 */
+.more-note { margin: 0; font-size: 16px; color: var(--mute); }
+.strip { display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; overscroll-behavior-x: contain;
+  padding: 0 max(32px, calc((100vw - 1200px) / 2 + 32px)); scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.strip::-webkit-scrollbar { display: none; }
+.strip:focus-visible { outline: 2px solid var(--acc); outline-offset: 4px; }
+.shot { flex: none; margin: 0; scroll-snap-align: start; scroll-margin-left: max(32px, calc((100vw - 1200px) / 2 + 32px)); }
+.shot .ph { aspect-ratio: auto; height: clamp(260px, 27vw, 380px); width: auto; background: var(--bg2); }
+.shot .ph img { width: auto; height: 100%; object-fit: contain; }
+.shot figcaption { margin-top: 12px; font-size: 15px; color: var(--mute); }
+.strip-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; }
+.strip-hint { font-size: 14.5px; color: var(--mute); }
+.strip-btns { display: flex; gap: 8px; }
+.sbtn { width: 46px; height: 46px; border: 1px solid var(--line); border-radius: 50%; background: none; cursor: pointer; font-size: 17px; color: var(--fg2); transition: border-color .25s, color .25s; }
+.sbtn:hover { border-color: var(--mute); color: var(--fg); }
 .label { margin: 0 0 12px; font-size: 14.5px; letter-spacing: .06em; color: var(--mute); }
 .school { margin: 0; font-family: 'Noto Serif KR', serif; font-weight: 600; font-size: clamp(30px, 3vw, 40px); letter-spacing: .04em; line-height: 1.25; }
 .degrees { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
@@ -216,7 +233,7 @@ dialog.lb::backdrop { background: rgba(0, 0, 0, .6); }
 @media (prefers-reduced-motion: no-preference) {
   .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .9s cubic-bezier(.2, .7, .2, 1), transform .9s cubic-bezier(.2, .7, .2, 1); transition-delay: var(--d, 0s); }
   .js .reveal.in { opacity: 1; transform: none; }
-  .hero-photo img { animation: lightup 1.8s cubic-bezier(.3, .6, .2, 1) both; }
+  .hero-photo img:first-child { animation: lightup 1.8s cubic-bezier(.3, .6, .2, 1) both; }
   @keyframes lightup { from { opacity: 0; filter: brightness(.35); } to { opacity: 1; filter: brightness(var(--photo-b)); } }
 }
 
@@ -231,7 +248,7 @@ dialog.lb::backdrop { background: rgba(0, 0, 0, .6); }
   .theme button { height: 32px; padding: 0 11px; font-size: 13px; }
   .hero { grid-template-columns: 1fr; min-height: 0; }
   .hero-photo { aspect-ratio: 4 / 5; }
-  .hero-photo img { object-position: 50% 26%; }
+  .hero-photo img { object-position: var(--pos-m, 50% 26%); }
   .hero-photo::after { background: radial-gradient(ellipse 90% 70% at 50% 34%, transparent 55%, color-mix(in srgb, var(--bg) 60%, transparent) 100%),
                                     linear-gradient(to bottom, transparent 80%, var(--bg) 100%); }
   .hero-text { padding: 26px 20px 40px; }
@@ -259,8 +276,11 @@ dialog.lb::backdrop { background: rgba(0, 0, 0, .6); }
   .band-grid > * + * { border-left: 0; border-top: 1px solid var(--line); }
   .band-grid > :first-child { padding-top: 0; }
   .band-grid > :last-child { padding-bottom: 0; }
-  .edu-card { gap: 20px; }
-  .emblem-lg { width: 84px; height: 79px; }
+  .strip { padding: 0 20px; gap: 10px; }
+  .shot { scroll-margin-left: 20px; }
+  .shot .ph { height: 300px; }
+  .shot figcaption { font-size: 14px; max-width: 72vw; }
+  .strip-btns { display: none; }
   .career { grid-template-columns: 1fr; }
   .contact { padding-bottom: 72px; }
   .contact-more .btn { flex: 1 1 100%; justify-content: space-between; }

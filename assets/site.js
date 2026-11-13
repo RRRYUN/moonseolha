@@ -42,6 +42,23 @@
     });
   });
 
+  /* 첫 화면 사진: 첫 사진에서 시작해 천천히 다음 사진으로 */
+  var heroImgs = $$('.hero-photo img');
+  if (heroImgs.length > 1 && !reduce) {
+    var hi = 0, heroTimer = null;
+    var loadRest = function () { heroImgs.forEach(function (im) { if (im.dataset.src) { im.srcset = im.dataset.srcset; im.src = im.dataset.src; im.removeAttribute('data-src'); } }); };
+    if (document.readyState === 'complete') loadRest(); else window.addEventListener('load', loadRest);
+    var step = function () {
+      var next = (hi + 1) % heroImgs.length, im = heroImgs[next];
+      if (!im.complete || !im.naturalWidth) return; // 아직 안 받아졌으면 다음 차례에
+      heroImgs[hi].classList.remove('on'); im.classList.add('on'); hi = next;
+    };
+    var startHero = function () { if (!heroTimer) heroTimer = setInterval(step, 6500); };
+    var stopHero = function () { clearInterval(heroTimer); heroTimer = null; };
+    setTimeout(startHero, 1500);
+    document.addEventListener('visibilitychange', function () { if (document.hidden) stopHero(); else startHero(); });
+  }
+
   /* 위쪽 줄 */
   var topbar = $('#topbar');
   var onScroll = function () { if (topbar) topbar.classList.toggle('scrolled', window.scrollY > 40); };
@@ -52,7 +69,7 @@
   /* 지금 보고 있는 구역 표시 */
   var spyLinks = $$('.menu a[data-spy]');
   if (IO && spyLinks.length && $('#videos')) {
-    var map = { reel: 'videos', videos: 'videos', photos: 'photos', profile: 'profile', career: 'profile', contact: 'contact' };
+    var map = { reel: 'videos', videos: 'videos', photos: 'photos', field: 'field', profile: 'profile', career: 'profile', contact: 'contact' };
     var spy = new IntersectionObserver(function (es) {
       es.forEach(function (en) {
         if (!en.isIntersecting) return;
@@ -93,6 +110,12 @@
     if (reduce) { reel.removeAttribute('autoplay'); reel.pause(); }
     else if (IO) new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) { var p = reel.play(); if (p && p.catch) p.catch(function () {}); } else reel.pause(); }); }, { threshold: .2 }).observe(reel);
   }
+
+  /* 현장 띠 넘기기 */
+  var strip = $('#strip');
+  if (strip) $$('.sbtn').forEach(function (b) {
+    b.addEventListener('click', function () { strip.scrollBy({ left: +b.dataset.dir * strip.clientWidth * 0.7, behavior: reduce ? 'auto' : 'smooth' }); });
+  });
 
   /* 휴대폰 아래 연락 줄 */
   var dock = $('#dock');
