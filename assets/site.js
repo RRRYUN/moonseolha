@@ -165,10 +165,10 @@
       show(+b.dataset.i); if (lb.showModal) lb.showModal(); else window.open(img.src, '_blank');
     });
     $('#lb-close').onclick = function () { lb.close(); };
-    $('#lb-prev').onclick = function () { show(cur - 1); };
-    $('#lb-next').onclick = function () { show(cur + 1); };
+    $$('[data-lb="prev"]', lb).forEach(function (b) { b.onclick = function () { show(cur - 1); }; });
+    $$('[data-lb="next"]', lb).forEach(function (b) { b.onclick = function () { show(cur + 1); }; });
     lb.addEventListener('keydown', function (ev) { if (ev.key === 'ArrowLeft') show(cur - 1); if (ev.key === 'ArrowRight') show(cur + 1); });
-    lb.addEventListener('click', function (ev) { if (ev.target === lb || ev.target.classList.contains('lb-stage')) lb.close(); });
+    lb.addEventListener('click', function (ev) { var t = ev.target; if (t === lb || t.classList.contains('lb-main') || t.classList.contains('lb-row') || t.classList.contains('lb-top')) lb.close(); });
     var sx = null;
     lb.addEventListener('touchstart', function (ev) { sx = ev.touches[0].clientX; }, { passive: true });
     lb.addEventListener('touchend', function (ev) { if (sx === null) return; var dx = ev.changedTouches[0].clientX - sx; if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1)); sx = null; });

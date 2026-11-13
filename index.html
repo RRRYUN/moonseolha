@@ -158,13 +158,22 @@
 </main>
 
 <dialog class="lb" id="lb" aria-label="사진 크게 보기">
-  <div class="lb-inner">
-    <div class="lb-bar"><span id="lb-count"></span><button type="button" id="lb-close">닫기</button></div>
-    <div class="lb-stage"><img id="lb-img" alt=""></div>
-    <div class="lb-foot"><span id="lb-cap"></span><a class="lb-dl" id="lb-dl" download>이 사진 받기</a></div>
+  <div class="lb-top">
+    <a class="lb-btn" id="lb-dl" download><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>이 사진 받기</a>
+    <button class="lb-btn" type="button" id="lb-close" autofocus><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>닫기</button>
   </div>
-  <button class="nav prev" type="button" id="lb-prev" aria-label="이전 사진">‹</button>
-  <button class="nav next" type="button" id="lb-next" aria-label="다음 사진">›</button>
+  <div class="lb-main">
+    <div class="lb-row">
+      <button class="lb-arrow side" type="button" data-lb="prev" aria-label="이전 사진"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <img id="lb-img" alt="">
+      <button class="lb-arrow side" type="button" data-lb="next" aria-label="다음 사진"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+    <div class="lb-info">
+      <button class="lb-arrow under" type="button" data-lb="prev" aria-label="이전 사진"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="lb-text"><span class="lb-count" id="lb-count"></span><span class="lb-cap" id="lb-cap"></span></div>
+      <button class="lb-arrow under" type="button" data-lb="next" aria-label="다음 사진"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg></button>
+    </div>
+  </div>
 </dialog>
 <script>window.LB_PHOTOS = [{"src": "assets/photo-743.jpg", "dl": "assets/dl/문설하_743.jpg", "alt": "정면, 검은 셔츠", "name": "문설하_743.jpg", "cap": ""}, {"src": "assets/photo-707.jpg", "dl": "assets/dl/문설하_707.jpg", "alt": "옆을 바라보는 얼굴, 검은 셔츠", "name": "문설하_707.jpg", "cap": ""}, {"src": "assets/photo-808.jpg", "dl": "assets/dl/문설하_808.jpg", "alt": "정면, 갈색 니트", "name": "문설하_808.jpg", "cap": ""}, {"src": "assets/photo-772.jpg", "dl": "assets/dl/문설하_772.jpg", "alt": "창가 자연광, 흰 셔츠", "name": "문설하_772.jpg", "cap": ""}, {"src": "assets/photo-947.jpg", "dl": "assets/dl/문설하_947.jpg", "alt": "위를 올려다보는 얼굴, 검은 재킷", "name": "문설하_947.jpg", "cap": ""}, {"src": "assets/photo-898.jpg", "dl": "assets/dl/문설하_898.jpg", "alt": "전신, 검은 정장", "name": "문설하_898.jpg", "cap": ""}, {"src": "assets/field/f2416.jpg", "dl": "assets/field/f2416.jpg", "alt": "우리 동네 사람들 촬영 현장, 2018", "name": "문설하_현장_2416.jpg", "cap": "우리 동네 사람들 촬영 현장 · 2018"}, {"src": "assets/field/f1394.jpg", "dl": "assets/field/f1394.jpg", "alt": "연극 무대, 2018", "name": "문설하_현장_1394.jpg", "cap": "연극 무대 · 2018"}, {"src": "assets/field/f1392.jpg", "dl": "assets/field/f1392.jpg", "alt": "연극 무대, 2018", "name": "문설하_현장_1392.jpg", "cap": "연극 무대 · 2018"}, {"src": "assets/field/f2487.jpg", "dl": "assets/field/f2487.jpg", "alt": "촬영 현장, 2018", "name": "문설하_현장_2487.jpg", "cap": "촬영 현장 · 2018"}, {"src": "assets/field/f1407.jpg", "dl": "assets/field/f1407.jpg", "alt": "연극 무대, 2018", "name": "문설하_현장_1407.jpg", "cap": "연극 무대 · 2018"}, {"src": "assets/field/f2421.jpg", "dl": "assets/field/f2421.jpg", "alt": "우리 동네 사람들 촬영 현장, 2018", "name": "문설하_현장_2421.jpg", "cap": "우리 동네 사람들 촬영 현장 · 2018"}, {"src": "assets/field/f1388.jpg", "dl": "assets/field/f1388.jpg", "alt": "분장실에서, 2018", "name": "문설하_현장_1388.jpg", "cap": "분장실에서 · 2018"}, {"src": "assets/field/f0282.jpg", "dl": "assets/field/f0282.jpg", "alt": "연극 무대", "name": "문설하_현장_0282.jpg", "cap": "연극 무대"}, {"src": "assets/field/f0302.jpg", "dl": "assets/field/f0302.jpg", "alt": "연극 무대", "name": "문설하_현장_0302.jpg", "cap": "연극 무대"}];</script>
 <footer class="foot"><div class="wrap">

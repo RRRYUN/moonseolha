@@ -237,17 +237,29 @@ h3 { margin: 0 0 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line
 .vgrid.small .vcard { grid-column: auto; }
 
 /* 사진 크게 보기 */
-dialog.lb { width: 100vw; height: 100vh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(8, 8, 7, .95); color: #ece7df; }
-dialog.lb::backdrop { background: rgba(0, 0, 0, .6); }
-.lb-inner { position: absolute; inset: 0; display: grid; grid-template-rows: 64px 1fr 80px; }
-.lb-bar { display: flex; align-items: center; justify-content: space-between; padding: 0 20px; font-size: 15.5px; color: #a9a196; }
-.lb-stage { display: flex; align-items: center; justify-content: center; min-height: 0; padding: 0 64px; }
-.lb-stage img { max-height: 100%; max-width: 100%; object-fit: contain; }
-.lb-foot { display: flex; align-items: center; justify-content: center; gap: 18px; font-size: 15px; color: #a9a196; }
-.lb button, .lb a.lb-dl { display: inline-flex; align-items: center; height: 42px; padding: 0 16px; border: 1px solid #3a3632; border-radius: 3px; background: none; color: #ece7df; font-size: 15px; cursor: pointer; }
-.lb button:hover, .lb a.lb-dl:hover { border-color: #958e84; }
-.lb .nav { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 64px; padding: 0; justify-content: center; font-size: 22px; border-color: transparent; }
-.lb .prev { left: 10px; } .lb .next { right: 10px; }
+dialog.lb { width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 20px 24px 26px; border: 0;
+  background: rgba(10, 10, 9, .97); color: #ece7df; overflow: hidden; }
+dialog.lb[open] { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 10px; }
+dialog.lb::backdrop { background: rgba(0, 0, 0, .7); }
+.lb-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.lb-btn { display: inline-flex; align-items: center; gap: 10px; height: 50px; padding: 0 22px; border: 1px solid rgba(236, 231, 223, .3); border-radius: 999px;
+  background: rgba(255, 255, 255, .05); color: #ece7df; font-size: 17px; font-weight: 500; cursor: pointer; transition: background-color .2s, border-color .2s; }
+.lb-btn .ico { width: 20px; height: 20px; }
+.lb-btn:hover { background: rgba(255, 255, 255, .11); border-color: rgba(236, 231, 223, .6); }
+.lb-main { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; min-height: 0; }
+.lb-row { display: flex; align-items: center; justify-content: center; gap: 28px; min-height: 0; max-width: 100%; }
+#lb-img { display: block; max-width: calc(100vw - 240px); max-height: calc(100dvh - 210px); object-fit: contain; }
+.lb-arrow { display: grid; place-items: center; flex: none; width: 62px; height: 62px; padding: 0; border: 1px solid rgba(236, 231, 223, .3); border-radius: 50%;
+  background: rgba(255, 255, 255, .05); color: #ece7df; cursor: pointer; transition: background-color .2s, border-color .2s; }
+.lb-arrow .ico { width: 28px; height: 28px; stroke-width: 1.8; }
+.lb-arrow:hover { background: rgba(255, 255, 255, .12); border-color: rgba(236, 231, 223, .65); }
+.lb-arrow.under { display: none; }
+.lb-info { display: flex; align-items: center; justify-content: center; gap: 22px; }
+.lb-text { display: grid; justify-items: center; gap: 4px; text-align: center; }
+.lb-count { font-size: 20px; font-weight: 500; letter-spacing: .1em; font-variant-numeric: tabular-nums; }
+.lb-cap { font-size: 16.5px; color: #b5ada2; }
+.lb-cap:empty { display: none; }
+.lb-btn:focus-visible, .lb-arrow:focus-visible { outline: 2px solid #c49a6c; outline-offset: 3px; }
 
 .dock { display: none; }
 
@@ -341,8 +353,13 @@ dialog.lb::backdrop { background: rgba(0, 0, 0, .6); }
   .pcard, .pcard.next { grid-template-columns: 128px minmax(0, 1fr); gap: 16px; padding: 10px; text-align: left; }
   .pcard.next .pthumb { order: 0; }
   .ptext b { font-size: 19px; }
-  .lb-stage { padding: 0 8px; }
-  .lb .nav { display: none; }
+  dialog.lb { padding: 12px 12px 18px; }
+  .lb-btn { height: 46px; padding: 0 17px; font-size: 16px; }
+  .lb-row { gap: 0; }
+  .lb-arrow.side { display: none; }
+  .lb-arrow.under { display: grid; width: 54px; height: 54px; }
+  #lb-img { max-width: calc(100vw - 24px); max-height: calc(100dvh - 230px); }
+  .lb-count { font-size: 18px; }
   .foot .wrap { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
   .watch .foot .wrap { padding-bottom: calc(40px + env(safe-area-inset-bottom)); }
   .dock { display: grid; grid-template-columns: repeat(3, 1fr); position: fixed; inset: auto 0 0 0; z-index: 40; gap: 8px;
